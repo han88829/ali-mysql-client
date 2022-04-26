@@ -13,10 +13,10 @@ const mockResult = {
   changedRows: 0,
 };
 const query = jest.fn(() => Promise.resolve(mockResult));
-const beginTransaction = jest.fn(() => {});
+const beginTransaction = jest.fn(() => { });
 const db = new DbClient({ query, beginTransaction });
 
-describe('更新测试', function() {
+describe('更新测试', function () {
   it('插入测试对象', async () => {
     const data = {
       name: 'name1',
@@ -43,6 +43,26 @@ describe('更新测试', function() {
       .execute();
 
     expect(query).toBeCalledWith("update `page` set `name` = 'name1',`type` = 'visual',`tech` = 'fusion' where `id` = 50", []);
+    expect(result).toBe(mockResult);
+  });
+
+  it('递增测试', async () => {
+    const result = await db
+      .update('page')
+      .inc('num', 1)
+      .where('id', 50)
+      .execute();
+    expect(query).toBeCalledWith("update `page` set `num` = num+1 where `id` = 50", []);
+    expect(result).toBe(mockResult);
+  });
+
+  it('递减测试', async () => {
+    const result = await db
+      .update('page')
+      .dec('num', 1)
+      .where('id', 50)
+      .execute();
+    expect(query).toBeCalledWith("update `page` set `num` = num-1 where `id` = 50", []);
     expect(result).toBe(mockResult);
   });
 });

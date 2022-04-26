@@ -12,9 +12,9 @@ module.exports = {
       // 用户名
       user: 'root',
       // 密码
-      password: '12345678',
+      password: 'root',
       // 数据库名
-      database: 'information_schema',
+      database: 'tool',
     },
     config: config => { // 数据库工具配置
       // 自定义operator
