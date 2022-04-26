@@ -174,6 +174,20 @@ const result = await db
   .where('id', 2)
   .execute();
 
+//递增字段
+const result = await db
+  .update("task") 
+  .inc('num',1)
+  .where('id', 2)
+  .execute();
+
+//递减字段
+const result = await db
+  .update("task") 
+  .dec('num',1)
+  .where('id', 2)
+  .execute();
+
 // 字面量使用 db.literals.now 等价于 db.literal("now()")
 const result = await db
   .update("task")
