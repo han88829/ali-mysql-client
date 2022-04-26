@@ -41,7 +41,7 @@ const result = await db
   .select("count(1)")
   .from("page")
   .where("name", "测试", "like")
-  .queryValue();
+  .queryValue();//queryValue|value
 ```
 
 - 2.2 查询单条数据
@@ -52,8 +52,8 @@ const result = await db
   .select("*")
   .from("page")
   .where("id", 12) // id = 12
-  .queryRow();
-```
+  .queryRow(); // queryRow|findOne
+``` 
 
 - 2.3 查询多条数据
 
@@ -63,7 +63,7 @@ const result = await db
   .select("*")
   .from("page")
   .where("name", "测试页面", 'like') // name like '%测试页面%'
-  .queryList();
+  .queryList();// queryList|find
 ```
 
 - 2.4 服务端分页查询
@@ -74,7 +74,7 @@ const result = await db
   .select("*")
   .from("page")
   .where("id", 100, "lt") // id < 100
-  .queryListWithPaging(3, 20); //每页 20 条，取第 3 页
+  .queryListWithPaging(3, 20); //每页 20 条，取第 3 页 queryListWithPaging|page
 ```
 
 - 2.5 多表关联查询
@@ -84,7 +84,7 @@ const result = await db
 const result = await db
   .select("a.page_id, a.saga_key")
   .from("page_edit_content as a")
-  .join("left join page as b on b.id = a.page_id")
+  .join("left join page as b on b.id = a.page_id") // 额外一个leftjoin
   .where("b.id", 172)
   .queryList();
 ```
