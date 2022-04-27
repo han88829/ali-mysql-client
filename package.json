@@ -1,6 +1,6 @@
 {
   "name": "ali-h-mysql",
-  "version": "1.0.3",
+  "version": "1.0.5",
   "description": "a lightweight mysql tools for nodejs",
   "main": "lib/index.js",
   "scripts": {
