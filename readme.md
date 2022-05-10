@@ -442,6 +442,6 @@ config.onExecuteError(function({ sql, error }) {
   - keywords (keywords query)
 
 - [内置的默认ignore](https://github.com/liuhuisheng/ali-mysql-client/blob/master/lib/configuration/ignore.js)
-    - ifHave (如果有值则加为条件）
+    - ifHave (如果有值则加为条件数组为空则为false）
     - ifNumber (如果是数值则加为条件）
 
