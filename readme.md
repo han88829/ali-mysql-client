@@ -41,7 +41,7 @@ const result = await db
   .select("count(1)")
   .from("page")
   .where("name", "测试", "like")
-  .queryValue();//queryValue|value
+  .value(); 
 ```
 
 - 2.2 查询单条数据
@@ -52,7 +52,7 @@ const result = await db
   .select("*")
   .from("page")
   .where("id", 12) // id = 12
-  .queryRow(); // queryRow|findOne
+  .findOne(); //  findOne
 ``` 
 
 - 2.3 查询多条数据
@@ -63,7 +63,7 @@ const result = await db
   .select("*")
   .from("page")
   .where("name", "测试页面", 'like') // name like '%测试页面%'
-  .queryList();// queryList|find
+  .find(); 
 ```
 
 - 2.4 服务端分页查询
@@ -74,7 +74,7 @@ const result = await db
   .select("*")
   .from("page")
   .where("id", 100, "lt") // id < 100
-  .queryListWithPaging(3, 20); //每页 20 条，取第 3 页 queryListWithPaging|page
+  .page(3, 20); //每页 20 条，取第 3 页  
 ```
 
 - 2.5 多表关联查询
@@ -86,7 +86,7 @@ const result = await db
   .from("page_edit_content as a")
   .join("left join page as b on b.id = a.page_id") // 额外一个leftjoin
   .where("b.id", 172)
-  .queryList();
+  .find();
 ```
 
 - 2.6 查询除了支持各种多表join外，当然还支持groupby orderby having等复杂查询操作
@@ -100,7 +100,7 @@ const result = await db
   .groupby("a1, b1")
   .having("count(category) > 10")
   .orderby("id desc")
-  .queryListWithPaging(2); //默认每页20条，取第2页
+  .page(2); //默认每页20条，取第2页
 ```
 
 - 2.7 转为sql自己处理
@@ -241,7 +241,7 @@ try {
 const result = await db
   .where(field, value, operator, ignore, join) // 支持的所有参数
   .where({field, value, operator, ignore, join}) //支持对象参数
-  .queryList();
+  .find();
   
 // 复杂查询条件
 const result = await db
@@ -251,7 +251,7 @@ const result = await db
   .where("tags", "test", "like") //name like '%test%'
   .where("tech", tech, "eq", "ifHave") // tech='tech_value' 当 tech 为空时，不做为查询条件
   .where("tags", tags, "findinset", "ifHave", "or")
-  .queryList();
+  .find();
 ```
 
 - field 字段名
@@ -270,7 +270,7 @@ const result = await db
   .from("page");
   .where("id", 100, "lt")  // id < 100
   .where("group_code", "dacu") // group_code = "dacu"
-  .queryList();
+  .find();
 ```
 
 大家能理解operator是为拼接查询条件使用的逻辑封装，复杂条件的拓展能力都可以靠自定义的operator来完成。其函数的形式如下：
@@ -312,7 +312,7 @@ if (isNumber(source_id)){
     query.where('source_id', source_id)
 }
 
-const result = await query.queryList();
+const result = await query.find();
 ```
 
 上面的代码使用ignore时则可简化为：
@@ -324,7 +324,7 @@ const result = await db
   .where("id", 100, "lt")
   .where("name", name, "like", "ifHave") //使用内置 ifHave，如果name为非空值时才加为条件
   .where("source_id", tech, "eq", "ifNumber") //使用内置 ifNumber
-  .queryList();
+  .find();
 ```
 
 
@@ -356,7 +356,7 @@ const result = await db.select('*')
     {field: 'c', value: '1', operator:'lt', join: 'or'},
   ])
   .where('d', 1)
-  .queryList();
+  .find();
 ```
 
 #### 7.5 真实场景中的复杂查询示例
@@ -386,7 +386,7 @@ const result = await app.db
   .where('b.id', 0, 'isnotnull', () => query.queryType === 'fav')
   // 分页查询
   .orderby('a.update_time desc, a.id desc')
-  .queryListWithPaging(query.pageIndex, query.pageSize);
+  .page(query.pageIndex, query.pageSize);
 ```
 
 ### 8. 自定义配置
