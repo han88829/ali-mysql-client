@@ -1,7 +1,7 @@
-'use strict';
-
 class SelectBuilder {
-  constructor(provider, select = "*") {
+  provider: any;
+  data: any
+  constructor(provider: any, select = "*") {
     this.provider = provider;
     this.data = {
       select,
@@ -16,7 +16,13 @@ class SelectBuilder {
     };
   }
 
-  from(from, arg) {
+  /**
+   * @description: 
+   * @param {string} from table name
+   * @param {any} arg
+   * @return {*}
+   */
+  from(from: string, arg: any) {
     if (this.data.form) {
       this.data.form += ' ' + from;
     } else {
@@ -30,7 +36,7 @@ class SelectBuilder {
     return this;
   }
 
-  join(join, arg) {
+  join(join: string, arg: any) {
     this.data.from += ' ' + join;
 
     if (Array.isArray(arg)) {
@@ -40,7 +46,7 @@ class SelectBuilder {
     return this;
   }
 
-  leftjoin(join, arg) {
+  leftjoin(join: string, arg: any) {
     this.data.from += ' left join ' + join;
 
     if (Array.isArray(arg)) {
@@ -50,7 +56,7 @@ class SelectBuilder {
     return this;
   }
 
-  where(field, value, operator, ignore, join) {
+  where(field: object | string, value: string | number, operator: string, ignore: string, join: string) {
     this.data.where.push(
       typeof field === 'object'
         ? field
@@ -60,76 +66,76 @@ class SelectBuilder {
     return this;
   }
 
-  orderby(orderby) {
+  orderby(orderby: string) {
     this.data.orderby += orderby;
 
     return this;
   }
 
-  groupby(groupby) {
+  groupby(groupby: string) {
     this.data.groupby += groupby;
 
     return this;
   }
 
-  having(having) {
+  having(having: string) {
     this.data.having += having;
 
     return this;
   }
 
-  queryValue() {
+  queryValue(): Promise<string | number> {
     const data = { ...this.data, page: 1, rows: 1 };
     return this.provider
       .parseSelect(data)
       .execute()
-      .then(result => {
+      .then((result: any) => {
         const row = result[0] || {};
         const field = Object.keys(row)[0];
         return row[field];
       });
   }
 
-  value() {
+  value(): Promise<string | number> {
     const data = { ...this.data, page: 1, rows: 1 };
     return this.provider
       .parseSelect(data)
       .execute()
-      .then(result => {
+      .then((result: any) => {
         const row = result[0] || {};
         const field = Object.keys(row)[0];
         return row[field];
       });
   }
 
-  queryRow() {
+  queryRow(): Promise<object | null> {
     const data = { ...this.data, page: 1, rows: 1 };
     return this.provider
       .parseSelect(data)
       .execute()
-      .then(result => result[0]);
+      .then((result: Array<any>) => result[0]);
   }
 
-  findOne() {
+  findOne(): Promise<object | null> {
     const data = { ...this.data, page: 1, rows: 1 };
     return this.provider
       .parseSelect(data)
       .execute()
-      .then(result => result[0]);
+      .then((result: Array<any>) => result[0]);
   }
 
-  queryList() {
+  queryList(): Promise<Array<Object>> {
     return this.provider
       .parseSelect(this.data)
       .execute()
-      .then(result => result);
+      .then((result: Array<any>) => result);
   }
 
-  find() {
+  find(): Promise<Array<Object>> {
     return this.provider
       .parseSelect(this.data)
       .execute()
-      .then(result => result);
+      .then((result: Array<any>) => result);
   }
 
   queryListWithPaging(page = 1, rows = 20) {
@@ -171,6 +177,12 @@ class SelectBuilder {
     }));
   }
 
+  /**
+   * @description: 
+   * @param {*} page 页码
+   * @param {*} rows 每页数量
+   * @return {*}
+   */
   page(page = 1, rows = 20) {
     const dataForRows = {
       ...this.data,
@@ -217,4 +229,4 @@ class SelectBuilder {
   }
 }
 
-module.exports = SelectBuilder;
+export default SelectBuilder;

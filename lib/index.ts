@@ -1,40 +1,41 @@
-'use strict';
-
 const DbProvider = require('./provider');
 const SelectBuilder = require('./builder/select');
 const InsertBuilder = require('./builder/insert');
 const SaveBuilder = require('./builder/save');
 const UpdateBuilder = require('./builder/update');
-const DeleteBuilder = require('./builder/delete');
+import DeleteBuilder from './builder/delete';
 const CustomBuilder = require('./builder/custom');
+import { Options } from './interface';
 
 class DbClient {
-  constructor(options) {
+  provider: any;
+  literals: any;
+  constructor(options: Options) {
     this.provider = new DbProvider(options);
     this.literals = this.provider.command.literals;
   }
 
-  select(sql) {
+  select(sql: string) {
     return new SelectBuilder(this.provider, sql);
   }
 
-  insert(table, data) {
+  insert(table: string, data: Object | Array<Object>) {
     return new InsertBuilder(this.provider, table, data);
   }
 
-  save(table, data) {
+  save(table: string, data: Object | Array<Object>) {
     return new SaveBuilder(this.provider, table, data);
   }
 
-  update(table, data) {
+  update(table: string, data: Object | Array<Object>) {
     return new UpdateBuilder(this.provider, table, data);
   }
 
-  delete(table) {
+  delete(table: string) {
     return new DeleteBuilder(this.provider, table);
   }
 
-  sql(sql, arg) {
+  sql(sql: string, arg: Array<string | number | any>) {
     return new CustomBuilder(this.provider, sql, arg);
   }
 
@@ -52,11 +53,11 @@ class DbClient {
     return this.provider.command.rollback().then(() => this);
   }
 
-  config(config) {
+  config(config: Options) {
     return this.provider.config.setConfig(config);
   }
 
-  literal(value) {
+  literal(value: any) {
     return new this.literals.Literal(value);
   }
 }

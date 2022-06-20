@@ -1,7 +1,8 @@
-'use strict';
-
 class Execution {
-  constructor(command, sql, arg) {
+  command: any;
+  sql: string;
+  arg: Array<string | number | any>;
+  constructor(command: any, sql: string, arg: Array<string | number | any>) {
     this.command = command;
     this.sql = sql;
     this.arg = arg;

@@ -1,7 +1,7 @@
-'use strict';
-
 class CustomSqlBuilder {
-  constructor(provider, sql, arg) {
+  provider: any;
+  data: any;
+  constructor(provider: any, sql: string, arg: Array<string | number | any>) {
     this.provider = provider;
     this.data = {
       sql,
@@ -9,7 +9,7 @@ class CustomSqlBuilder {
     };
   }
 
-  params(arg) {
+  params(arg: any) {
     if (Array.isArray(arg)) {
       this.data.arg = arg;
     }

@@ -1,7 +1,8 @@
-'use strict';
-
+import { Response } from '../interface';
 class InsertBuilder {
-  constructor(provider, table, data) {
+  provider: any;
+  data: any;
+  constructor(provider: any, table: string, data: object | any) {
     this.provider = provider;
     this.data = {
       table,
@@ -9,9 +10,9 @@ class InsertBuilder {
     };
   }
 
-  column(name, value) {
+  column(name: string, value: string | number | any) {
     if (Array.isArray(this.data.data)) {
-      this.data.data.forEach(item => (item[name] = value));
+      this.data.data.forEach((item: any) => (item[name] = value));
     } else {
       this.data.data[name] = value;
     }
@@ -19,17 +20,17 @@ class InsertBuilder {
     return this;
   }
 
-  execute() {
+  execute(): Promise<Response> {
     return this.provider
       .parseInsert(this.data)
       .execute();
   }
 
-  toSql() {
+  toSql(): string {
     return this.provider
       .parseInsert(this.data)
       .format();
   }
 }
 
-module.exports = InsertBuilder;
+export default InsertBuilder;

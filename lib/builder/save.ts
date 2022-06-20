@@ -1,7 +1,7 @@
-'use strict';
-
 class SaveBuilder {
-  constructor(provider, table, data) {
+  provider: any;
+  data: any;
+  constructor(provider: any, table: string, data: Object | any) {
     this.provider = provider;
     this.data = {
       table,
@@ -10,7 +10,7 @@ class SaveBuilder {
     };
   }
 
-  where(field, value, operator, ignore, join) {
+  where(field: object | string, value: string | number, operator: string, ignore: string, join: any) {
     this.data.where.push(
       typeof field === 'object'
         ? field
@@ -20,15 +20,15 @@ class SaveBuilder {
     return this;
   }
 
-  async execute() {
+  async execute(): Promise<number> {
     if (Array.isArray(this.data.data)) {
-      let insertData = this.data.data.filter(x => !x.id);
-      const updateData = this.data.data.filter(x => x.id);
+      let insertData = this.data.data.filter((x: any) => !x.id);
+      const updateData = this.data.data.filter((x: any) => x.id);
       const promiseAll = [];
       if (insertData.length) promiseAll.push(this.provider
         .parseInsert({ ...this.data, data: insertData.length == 1 ? insertData[0] : insertData })
         .execute());
-      if (updateData.length) promiseAll.push(...updateData.map(x => {
+      if (updateData.length) promiseAll.push(...updateData.map((x: any) => {
         return this.provider
           .parseUpdate({ ...this.data, data: x, where: [{ field: 'id', value: x.id }] })
           .execute();
@@ -54,4 +54,4 @@ class SaveBuilder {
   }
 }
 
-module.exports = SaveBuilder;
+export default SaveBuilder;

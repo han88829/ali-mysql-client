@@ -5,3 +5,8 @@
 **/logs
 **/run
 .eslintcache
+*.d.ts
+lib/index.js
+lib/interface.js
+lib/builder/*.js
+lib/builder/*.d.ts

@@ -1,7 +1,8 @@
-'use strict';
-
+import { Response } from '../interface';
 class UpdateBuilder {
-  constructor(provider, table, data) {
+  provider: any;
+  data: any;
+  constructor(provider: any, table: string, data: any) {
     this.provider = provider;
     this.data = {
       table,
@@ -10,13 +11,13 @@ class UpdateBuilder {
     };
   }
 
-  column(name, value) {
+  column(name: string, value: any) {
     this.data.data[name] = value;
 
     return this;
   }
 
-  where(field, value, operator, ignore, join) {
+  where(field: object | string, value: string | number, operator: string, ignore: string, join: string) {
     this.data.where.push(
       typeof field === 'object'
         ? field
@@ -25,25 +26,25 @@ class UpdateBuilder {
 
     return this;
   }
-  inc(name, value) {
+  inc(name: string, value: number) {
     this.data.data[name] = this.provider.command.literals.Literal(`${name}+${value}`);
     return this;
   }
-  dec(name, value) {
+  dec(name: string, value: number) {
     this.data.data[name] = this.provider.command.literals.Literal(`${name}-${value}`);
     return this;
   }
-  execute() {
+  execute(): Promise<Response> {
     return this.provider
       .parseUpdate(this.data)
       .execute();
   }
 
-  toSql() {
+  toSql(): string {
     return this.provider
       .parseUpdate(this.data)
       .format();
   }
 }
 
-module.exports = UpdateBuilder;
+export default UpdateBuilder;
