@@ -29,4 +29,4 @@ class CustomSqlBuilder {
   }
 }
 
-module.exports = CustomSqlBuilder;
+export default CustomSqlBuilder;

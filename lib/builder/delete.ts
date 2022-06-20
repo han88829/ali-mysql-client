@@ -10,7 +10,16 @@ class DeleteBuilder {
     };
   }
 
-  where(field: Object | string, value: any, operator: string, ignore: string, join: string) {
+  /**
+* @description: 查询条件
+* @param {object} field 字段名
+* @param {string} value 字段值
+* @param {string} operator 符号 <>=等 默认=
+* @param {string} ignore 忽视条件
+* @param {string} join or或and 默认and
+* @return {*}
+*/
+  where(field: Object | string, value: any, operator?: string, ignore?: string, join?: string) {
     this.data.where.push(
       typeof field === 'object'
         ? field
