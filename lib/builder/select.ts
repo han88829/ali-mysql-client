@@ -150,7 +150,7 @@ class SelectBuilder {
     const queryRows = this.provider.parseSelect(dataForRows);
 
     // 构造数据总数量查询，如果有groupby时，count + groupby获取的是多条数据，结果不正确必须再包一层
-    let queryTotal = null;
+    let queryTotal: any = null;
     if (this.data.groupby || this.data.select.toLowerCase().includes('distinct')) {
       queryTotal = this.provider.parseSelect(dataForCount);
       queryTotal.sql = `select count(*) as total from (${queryTotal.sql}) as t`;

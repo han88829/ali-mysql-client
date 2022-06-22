@@ -1,10 +1,10 @@
 const DbProvider = require('./provider');
-const SelectBuilder = require('./builder/select');
-const InsertBuilder = require('./builder/insert');
-const SaveBuilder = require('./builder/save');
-const UpdateBuilder = require('./builder/update');
+import SelectBuilder from './builder/select';
+import InsertBuilder from './builder/insert';
+import SaveBuilder from './builder/save';
+import UpdateBuilder from './builder/update';
 import DeleteBuilder from './builder/delete';
-const CustomBuilder = require('./builder/custom');
+import CustomBuilder from './builder/custom';
 import { Options } from './interface';
 
 class DbClient {
@@ -15,7 +15,7 @@ class DbClient {
         this.literals = this.provider.command.literals;
     }
 
-    select(sql: string) {
+    select(sql: string = "*") {
         return new SelectBuilder(this.provider, sql);
     }
 
@@ -62,4 +62,4 @@ class DbClient {
     }
 }
 
-module.exports = DbClient;
+export default DbClient;
