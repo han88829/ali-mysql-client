@@ -15,8 +15,13 @@
 
 初始化如下
 
+安装
 ```javascript
-const DbClient = require('ali-h-mysql');
+npm i ali-h-mysql-ts
+```
+
+```javascript
+const DbClient = require('ali-h-mysql-ts');
 
 const db = new DbClient({
   host     : '127.0.0.1',
