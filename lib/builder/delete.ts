@@ -1,5 +1,14 @@
 import { Response } from '../interface';
-class DeleteBuilder {
+
+export interface IDeleteWhere {
+  where(field: object | string, value: string | number, operator?: string, ignore?: string, join?: string): End;
+}
+interface End extends IDeleteWhere {
+  execute(): Promise<Response>;
+  toSql(): string;
+}
+type INoodDelete = IDeleteWhere & End;
+class DeleteBuilder implements INoodDelete {
   provider: any;
   data: any;
   constructor(provider: any, table: string) {
@@ -41,5 +50,4 @@ class DeleteBuilder {
       .format();
   }
 }
-
 export default DeleteBuilder;

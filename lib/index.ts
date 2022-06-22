@@ -1,9 +1,9 @@
 const DbProvider = require('./provider');
-import SelectBuilder from './builder/select';
+import SelectBuilder, { From } from './builder/select';
 import InsertBuilder from './builder/insert';
 import SaveBuilder from './builder/save';
 import UpdateBuilder from './builder/update';
-import DeleteBuilder from './builder/delete';
+import DeleteBuilder, { IDeleteWhere } from './builder/delete';
 import CustomBuilder from './builder/custom';
 import { Options } from './interface';
 
@@ -15,7 +15,7 @@ class DbClient {
         this.literals = this.provider.command.literals;
     }
 
-    select(sql: string = "*") {
+    select(sql: string = "*"): From {
         return new SelectBuilder(this.provider, sql);
     }
 
@@ -31,7 +31,7 @@ class DbClient {
         return new UpdateBuilder(this.provider, table, data);
     }
 
-    delete(table: string) {
+    delete(table: string): IDeleteWhere {
         return new DeleteBuilder(this.provider, table);
     }
 
@@ -61,5 +61,4 @@ class DbClient {
         return new this.literals.Literal(value);
     }
 }
-
 export default DbClient;

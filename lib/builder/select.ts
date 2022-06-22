@@ -1,4 +1,25 @@
-class SelectBuilder {
+export interface From {
+  from(from: string, arg?: any): Where;
+}
+
+interface End {
+  value(): Promise<string | number>;
+  findOne(): any;
+  find(): any;
+  page(page: number, rows: number): any;
+  toSql(): string;
+}
+
+interface Where extends End {
+  where(field: object | string, value: string | number, operator?: string, ignore?: string, join?: string): this;
+  join(join: string, arg?: any): this;
+  orderby(orderby: string): this;
+  groupby(groupby: string): this;
+  having(having: string): this;
+}
+
+type INoodleRobot = From & End;
+class SelectBuilder implements INoodleRobot {
   provider: any;
   data: any
   constructor(provider: any, select = "*") {
@@ -178,5 +199,4 @@ class SelectBuilder {
       .format();
   }
 }
-
 export default SelectBuilder;
