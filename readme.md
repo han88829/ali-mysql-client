@@ -2,10 +2,10 @@
 [![NPM version][npm-image]][npm-url]
 [![npm download][download-image]][download-url]
 
-[npm-image]: https://img.shields.io/npm/v/ali-h-mysql.svg?style=flat-square
-[npm-url]: https://npmjs.org/package/ali-h-mysql
-[download-image]: https://img.shields.io/npm/dm/ali-h-mysql.svg?style=flat-square
-[download-url]: https://npmjs.org/package/ali-h-mysql
+[npm-image]: https://img.shields.io/npm/v/ali-h-mysql-ts.svg?style=flat-square
+[npm-url]: https://npmjs.org/package/ali-h-mysql-ts
+[download-image]: https://img.shields.io/npm/dm/ali-h-mysql-ts.svg?style=flat-square
+[download-url]: https://npmjs.org/package/ali-h-mysql-ts
 
 为nodejs访问mysql数据库提供强大流畅的api的工具类库，目标是希望访问数据库逻辑都能使用一行代码完成，让访问数据库变得更加简单优雅。
 
