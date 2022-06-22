@@ -2,10 +2,10 @@
 [![NPM version][npm-image]][npm-url]
 [![npm download][download-image]][download-url]
 
-[npm-image]: https://img.shields.io/npm/v/ali-mysql-client.svg?style=flat-square
-[npm-url]: https://npmjs.org/package/ali-mysql-client
-[download-image]: https://img.shields.io/npm/dm/ali-mysql-client.svg?style=flat-square
-[download-url]: https://npmjs.org/package/ali-mysql-client
+[npm-image]: https://img.shields.io/npm/v/ali-h-mysql.svg?style=flat-square
+[npm-url]: https://npmjs.org/package/ali-h-mysql
+[download-image]: https://img.shields.io/npm/dm/ali-h-mysql.svg?style=flat-square
+[download-url]: https://npmjs.org/package/ali-h-mysql
 
 为nodejs访问mysql数据库提供强大流畅的api的工具类库，目标是希望访问数据库逻辑都能使用一行代码完成，让访问数据库变得更加简单优雅。
 
@@ -16,7 +16,7 @@
 初始化如下
 
 ```javascript
-const DbClient = require('ali-mysql-client');
+const DbClient = require('ali-h-mysql');
 
 const db = new DbClient({
   host     : '127.0.0.1',
@@ -27,9 +27,9 @@ const db = new DbClient({
 ```
 
 不同框架的使用示例：
-- [demo-egg](https://github.com/liuhuisheng/ali-mysql-client/tree/master/examples/demo-egg)
-- [demo-koa](https://github.com/liuhuisheng/ali-mysql-client/tree/master/examples/demo-koa)
-- [demo-express](https://github.com/liuhuisheng/ali-mysql-client/tree/master/examples/demo-express)
+- [demo-egg](https://github.com/han88829/ali-mysql-client/tree/master/examples/demo-egg)
+- [demo-koa](https://github.com/han88829/ali-mysql-client/tree/master/examples/demo-koa)
+- [demo-express](https://github.com/han88829/ali-mysql-client/tree/master/examples/demo-express)
 
 ### 2. 构造查询
 
@@ -422,7 +422,7 @@ config.onExecuteError(function({ sql, error }) {
 
 ### 9. 内置的operator及ignore
 
-- [内置的默认operator](https://github.com/liuhuisheng/ali-mysql-client/blob/master/lib/configuration/operator.js)
+- [内置的默认operator](https://github.com/han88829/ali-mysql-client/blob/master/lib/configuration/operator.js)
   - eq (equal)
   - ne (not equal)
   - in (in)
@@ -441,7 +441,7 @@ config.onExecuteError(function({ sql, error }) {
   - sql (custom sql)
   - keywords (keywords query)
 
-- [内置的默认ignore](https://github.com/liuhuisheng/ali-mysql-client/blob/master/lib/configuration/ignore.js)
+- [内置的默认ignore](https://github.com/han88829/ali-mysql-client/blob/master/lib/configuration/ignore.js)
     - ifHave (如果有值则加为条件数组为空则为false）
     - ifNumber (如果是数值则加为条件）
 
