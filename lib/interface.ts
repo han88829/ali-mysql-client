@@ -13,8 +13,8 @@ export interface Options {
         user: string;
         password: string;
         database: string;
-        charset: string;
-        timezone: string;
+        charset?: string;
+        timezone?: string;
     };
     config: any;
 }
