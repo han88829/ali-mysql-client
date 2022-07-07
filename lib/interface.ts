@@ -11,10 +11,11 @@ export interface Options {
     mysql: {
         host: string;
         user: string;
+        port?: string | number;
         password: string;
         database: string;
         charset?: string;
         timezone?: string;
     };
-    config: any;
+    config?: any;
 }
