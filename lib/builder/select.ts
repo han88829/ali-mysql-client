@@ -25,7 +25,7 @@ class SelectBuilder implements INoodleRobot {
   constructor(provider: any, select = "*") {
     this.provider = provider;
     this.data = {
-      select,
+      select: select.replace(/\r|\n/g, ''),//去掉回车、换行符，兼容模板字符串
       from: '',
       where: [],
       orderby: '',

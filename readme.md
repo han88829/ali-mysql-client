@@ -1,4 +1,4 @@
-## 项目简介
+## 项目简介 command+shift+b构建ts
 [![NPM version][npm-image]][npm-url]
 [![npm download][download-image]][download-url]
 
