@@ -16,7 +16,7 @@ describe('查询测试', function() {
       .select('id')
       .from('page')
       .where('id', 100)
-      .queryValue();
+      .value();
 
     expect(query).toBeCalledWith('select id from page where `id` = 100 limit 1', []);
     expect(result).toBe(mockResult[0].id);
@@ -27,7 +27,7 @@ describe('查询测试', function() {
       .select('*')
       .from('page')
       .where('id', 100, 'le')
-      .queryRow();
+      .findOne();
 
     expect(query).toBeCalledWith('select * from page where `id` <= 100 limit 1', []);
     expect(result).toBe(mockResult[0]);
@@ -38,9 +38,20 @@ describe('查询测试', function() {
       .select('*')
       .from('page')
       .where('id', 50, 'gt')
-      .queryList();
+      .find();
 
     expect(query).toBeCalledWith('select * from page where `id` > 50', []);
+    expect(result).toBe(mockResult);
+  });
+
+  it('指定行数查询', async () => {
+    const result = await db
+      .select('*')
+      .from('page')
+      .where('id', 50, 'gt')
+      .find(10);
+
+    expect(query).toBeCalledWith('select * from page where `id` > 50 limit 10', []);
     expect(result).toBe(mockResult);
   });
 
@@ -50,7 +61,7 @@ describe('查询测试', function() {
       .from('page')
       .where('id', 50, 'gt')
       .where('id', 100, 'le')
-      .queryListWithPaging(3, 20);
+      .page(3, 20);
 
     expect(query).toBeCalledWith('select count(*) as total from page where `id` > 50 and `id` <= 100', []);
     expect(query).toBeCalledWith('select * from page where `id` > 50 and `id` <= 100 limit 40, 20', []);
@@ -65,7 +76,7 @@ describe('查询测试', function() {
       .where('id', 100, 'gt')
       .where('id', 200, 'le')
       .groupby('biz')
-      .queryListWithPaging(4, 20);
+      .page(4, 20);
 
     expect(query).toBeCalledWith('select count(*) as total from (select biz from page where `id` > 100 and `id` <= 200 group by biz) as t', []);
     expect(query).toBeCalledWith('select biz from page where `id` > 100 and `id` <= 200 group by biz limit 60, 20', []);
@@ -79,7 +90,7 @@ describe('查询测试', function() {
       .from('page_edit_content as a')
       .join('left join page as b on b.id = a.page_id and b.update_user = ?', [ 'huisheng.lhs' ])
       .where('b.id', 172)
-      .queryList();
+      .find();
 
     expect(query).toBeCalledWith("select a.page_id, a.saga_key from page_edit_content as a left join page as b on b.id = a.page_id and b.update_user = 'huisheng.lhs' where `b`.`id` = 172", []);
     expect(result).toBe(mockResult);

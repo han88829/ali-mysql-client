@@ -5,7 +5,7 @@ export interface From {
 interface End {
   value(): Promise<string | number>;
   findOne(): any;
-  find(): any;
+  find(rows: number): any;
   page(page: number, rows: number): any;
   toSql(): string;
 }
@@ -139,11 +139,16 @@ class SelectBuilder implements INoodleRobot {
 
   /**
    * @description: 查询多行数据
+   * @param {*} rows 查询行数，默认为零不限制长度
    * @return {*}
    */
-  find(): Promise<Array<Object>> {
+  find(rows: number = 0): Promise<Array<Object>> {
     return this.provider
-      .parseSelect(this.data)
+      .parseSelect({
+        ...this.data,
+        rows,
+        page: rows > 0 ? 1 : 0
+      })
       .execute()
       .then((result: Array<any>) => result);
   }
