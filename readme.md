@@ -68,7 +68,7 @@ const result = await db
   .select("*")
   .from("page")
   .where("name", "测试页面", 'like') // name like '%测试页面%'
-  .find(); 
+  .find(); // find(rows:number) 可以传递数字指定行数，默认不做限制
 ```
 
 - 2.4 服务端分页查询
