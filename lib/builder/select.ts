@@ -5,7 +5,7 @@ export interface From {
 interface End {
   value(): Promise<string | number>;
   findOne(): any;
-  find(rows: number): any;
+  find(rows?: number): any;
   page(page: number, rows: number): any;
   toSql(): string;
 }
