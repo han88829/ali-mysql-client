@@ -19,7 +19,7 @@ class SaveBuilder {
  * @param {string} join or或and 默认and
  * @return {*}
  */
-  where(field: object | string, value: string | number, operator?: string, ignore?: string, join?: any) {
+  where(field: object | string, value: any, operator?: string, ignore?: string, join?: any) {
     this.data.where.push(
       typeof field === 'object'
         ? field

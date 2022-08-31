@@ -1,7 +1,7 @@
 import { Response } from '../interface';
 
 export interface IDeleteWhere {
-  where(field: object | string, value: string | number, operator?: string, ignore?: string, join?: string): End;
+  where(field: object | string, value: any, operator?: string, ignore?: string, join?: string): End;
 }
 interface End extends IDeleteWhere {
   execute(): Promise<Response>;

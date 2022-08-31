@@ -11,7 +11,7 @@ interface End {
 }
 
 interface Where extends End {
-  where(field: object | string, value: string | number, operator?: string, ignore?: string, join?: string): this;
+  where(field: object | string, value: any, operator?: string, ignore?: string, join?: string): this;
   join(join: string, arg?: any): this;
   orderby(orderby: string): this;
   groupby(groupby: string): this;
@@ -81,7 +81,7 @@ class SelectBuilder implements INoodleRobot {
    * @param {string} join or或and 默认and
    * @return {*}
    */
-  where(field: object | string, value: string | number, operator?: string, ignore?: string, join?: string) {
+  where(field: object | string, value: any, operator?: string, ignore?: string, join?: string) {
     this.data.where.push(
       typeof field === 'object'
         ? field
