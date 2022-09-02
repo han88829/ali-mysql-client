@@ -19,7 +19,7 @@ class DbClient {
         return new SelectBuilder(this.provider, sql);
     }
 
-    insert(table: string, data: Object | Array<Object>) {
+    insert(table: string, data?: Object | Array<Object>) {
         return new InsertBuilder(this.provider, table, data);
     }
 
@@ -27,7 +27,7 @@ class DbClient {
         return new SaveBuilder(this.provider, table, data);
     }
 
-    update(table: string, data: Object | Array<Object>) {
+    update(table: string, data?: Object | Array<Object>) {
         return new UpdateBuilder(this.provider, table, data);
     }
 
