@@ -1,4 +1,4 @@
-import { Response } from '../interface';
+import { InsertResponse } from '../interface';
 class InsertBuilder {
   provider: any;
   data: any;
@@ -20,7 +20,7 @@ class InsertBuilder {
     return this;
   }
 
-  execute(): Promise<Response> {
+  execute(): Promise<InsertResponse> {
     return this.provider
       .parseInsert(this.data)
       .execute();
