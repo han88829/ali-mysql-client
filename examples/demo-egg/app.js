@@ -1,6 +1,6 @@
 'use strict';
 
-const DbClient = require('ali-mysql-client');
+const DbClient = require('ali-h-mysql-ts');
 
 module.exports = function(app) {
   const { mysql, mysqlClient } = app.config;

@@ -1,4 +1,4 @@
-import { Response } from '../interface';
+import { Response, WhereObject } from "../interface";
 class UpdateBuilder {
   provider: any;
   data: any;
@@ -31,33 +31,59 @@ class UpdateBuilder {
    * @param {string} join or或and 默认and
    * @return {*}
    */
-  where(field: object | string, value: any, operator?: string, ignore?: string, join?: string) {
-    this.data.where.push(
-      typeof field === 'object'
-        ? field
-        : { field, value, operator, ignore, join }
-    );
+  where(
+    field: WhereObject | string | Array<any>,
+    value: any,
+    operator?: string,
+    ignore?: string,
+    join?: string
+  ) {
+    if (Array.isArray(field)) {
+      // where = [[key, value, operator, ignore, join]];
+      this.data.where.push(
+        ...field.map((item) => {
+          return {
+            field: item[0],
+            value: item[1],
+            operator: item[2],
+            ignore: item[3],
+            join: item[4],
+          };
+        })
+      );
+    } else if (typeof field === "object") {
+      this.data.where.push(
+        ...Object.keys(field).map((key: string) => ({
+          field: key,
+          value: field[key],
+          operator,
+          ignore,
+        }))
+      );
+    } else {
+      this.data.where.push({ field, value, operator, ignore, join });
+    }
 
     return this;
   }
   inc(name: string, value: number) {
-    this.data.data[name] = this.provider.command.literals.Literal(`${name}+${value}`);
+    this.data.data[name] = this.provider.command.literals.Literal(
+      `${name}+${value}`
+    );
     return this;
   }
   dec(name: string, value: number) {
-    this.data.data[name] = this.provider.command.literals.Literal(`${name}-${value}`);
+    this.data.data[name] = this.provider.command.literals.Literal(
+      `${name}-${value}`
+    );
     return this;
   }
   execute(): Promise<Response> {
-    return this.provider
-      .parseUpdate(this.data)
-      .execute();
+    return this.provider.parseUpdate(this.data).execute();
   }
 
   toSql(): string {
-    return this.provider
-      .parseUpdate(this.data)
-      .format();
+    return this.provider.parseUpdate(this.data).format();
   }
 }
 

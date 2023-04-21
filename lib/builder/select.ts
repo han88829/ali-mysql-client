@@ -1,3 +1,5 @@
+import { WhereObject } from "../interface";
+
 export interface From {
   from(from: string, arg?: any): Where;
 }
@@ -11,7 +13,13 @@ interface End {
 }
 
 interface Where extends End {
-  where(field: object | string, value: any, operator?: string, ignore?: string, join?: string): this;
+  where(
+    field: object | string,
+    value: any,
+    operator?: string,
+    ignore?: string,
+    join?: string
+  ): this;
   join(join: string, arg?: any): this;
   orderby(orderby: string): this;
   groupby(groupby: string): this;
@@ -21,16 +29,16 @@ interface Where extends End {
 type INoodleRobot = From & End;
 class SelectBuilder implements INoodleRobot {
   provider: any;
-  data: any
+  data: any;
   constructor(provider: any, select = "*") {
     this.provider = provider;
     this.data = {
-      select: select.replace(/\r|\n/g, ''),//去掉回车、换行符，兼容模板字符串
-      from: '',
+      select: select.replace(/\r|\n/g, ""), //去掉回车、换行符，兼容模板字符串
+      from: "",
       where: [],
-      orderby: '',
-      groupby: '',
-      having: '',
+      orderby: "",
+      groupby: "",
+      having: "",
       rows: 0,
       page: 0,
       fromArg: [],
@@ -45,7 +53,7 @@ class SelectBuilder implements INoodleRobot {
    */
   from(from: string, arg?: any) {
     if (this.data.form) {
-      this.data.form += ' ' + from;
+      this.data.form += " " + from;
     } else {
       this.data.from = from;
     }
@@ -64,7 +72,7 @@ class SelectBuilder implements INoodleRobot {
    * @return {*}
    */
   join(join: string, arg?: any) {
-    this.data.from += ' ' + join;
+    this.data.from += " " + join;
 
     if (Array.isArray(arg)) {
       this.data.fromArg.push.apply(this.data.fromArg, arg);
@@ -76,17 +84,43 @@ class SelectBuilder implements INoodleRobot {
    * @description: 查询条件
    * @param {object} field 字段名
    * @param {string} value 字段值
-   * @param {string} operator 符号 <>=等
+   * @param {string} operator 符号 <>=等 默认=
    * @param {string} ignore 忽视条件
    * @param {string} join or或and 默认and
    * @return {*}
    */
-  where(field: object | string, value: any, operator?: string, ignore?: string, join?: string) {
-    this.data.where.push(
-      typeof field === 'object'
-        ? field
-        : { field, value, operator, ignore, join }
-    );
+  where(
+    field: WhereObject | string | Array<any>,
+    value: any,
+    operator?: string,
+    ignore?: string,
+    join?: string
+  ) {
+    if (Array.isArray(field)) {
+      // where = [[key, value, operator, ignore, join]];
+      this.data.where.push(
+        ...field.map((item) => {
+          return {
+            field: item[0],
+            value: item[1],
+            operator: item[2],
+            ignore: item[3],
+            join: item[4],
+          };
+        })
+      );
+    } else if (typeof field === "object") {
+      this.data.where.push(
+        ...Object.keys(field).map((key: string) => ({
+          field: key,
+          value: field[key],
+          operator,
+          ignore,
+        }))
+      );
+    } else {
+      this.data.where.push({ field, value, operator, ignore, join });
+    }
 
     return this;
   }
@@ -147,7 +181,7 @@ class SelectBuilder implements INoodleRobot {
       .parseSelect({
         ...this.data,
         rows,
-        page: rows > 0 ? 1 : 0
+        page: rows > 0 ? 1 : 0,
       })
       .execute()
       .then((result: Array<any>) => result);
@@ -169,7 +203,7 @@ class SelectBuilder implements INoodleRobot {
       ...this.data,
       rows: 0,
       page: 0,
-      orderby: '',
+      orderby: "",
     };
 
     // 构造数据列表查询
@@ -177,31 +211,31 @@ class SelectBuilder implements INoodleRobot {
 
     // 构造数据总数量查询，如果有groupby时，count + groupby获取的是多条数据，结果不正确必须再包一层
     let queryTotal: any = null;
-    if (this.data.groupby || this.data.select.toLowerCase().includes('distinct')) {
+    if (
+      this.data.groupby ||
+      this.data.select.toLowerCase().includes("distinct")
+    ) {
       queryTotal = this.provider.parseSelect(dataForCount);
       queryTotal.sql = `select count(*) as total from (${queryTotal.sql}) as t`;
     } else {
-      dataForCount.select = 'count(*) as total';
+      dataForCount.select = "count(*) as total";
       queryTotal = this.provider.parseSelect(dataForCount);
     }
 
     // 返回分页查询结果
-    return Promise.all([
-      queryRows.execute(),
-      queryTotal.execute(),
-    ]).then(values => ({
-      total: values[1][0].total,
-      rows: values[0],
-      pageIndex: Number(page),
-      pageSize: Number(rows),
-      pageCount: Math.ceil(values[1][0].total / (rows || 1)),
-    }));
+    return Promise.all([queryRows.execute(), queryTotal.execute()]).then(
+      (values) => ({
+        total: values[1][0].total,
+        rows: values[0],
+        pageIndex: Number(page),
+        pageSize: Number(rows),
+        pageCount: Math.ceil(values[1][0].total / (rows || 1)),
+      })
+    );
   }
 
   toSql() {
-    return this.provider
-      .parseSelect(this.data)
-      .format();
+    return this.provider.parseSelect(this.data).format();
   }
 }
 export default SelectBuilder;

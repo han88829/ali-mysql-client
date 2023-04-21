@@ -1,12 +1,13 @@
 {
   "name": "ali-h-mysql-ts",
-  "version": "1.3.6",
+  "version": "1.3.8",
   "description": "a lightweight mysql tools for nodejs",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "scripts": {
     "test": "jest",
-    "lint": "eslint . --fix --cache; exit 0"
+    "lint": "eslint . --fix --cache; exit 0",
+    "build": "tsc"
   },
   "files": [
     "lib",

@@ -26,7 +26,7 @@ const config = app.config = require('./config');
 const { mysqlClient, port } = config;
 
 // 初始化数据库
-const DbClient = require('ali-mysql-client');
+const DbClient = require('ali-h-mysql-ts');
 app.db = new DbClient(mysqlClient);
 
 // 启动服务
