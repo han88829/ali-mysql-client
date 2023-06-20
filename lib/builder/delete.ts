@@ -3,7 +3,7 @@ import { Response, WhereObject } from "../interface";
 export interface IDeleteWhere {
   where(
     field: object | string,
-    value: any,
+    value?: any,
     operator?: string,
     ignore?: string,
     join?: string
@@ -36,7 +36,7 @@ class DeleteBuilder implements INoodDelete {
    */
   where(
     field: WhereObject | string | Array<any>,
-    value: any,
+    value?: any,
     operator?: string,
     ignore?: string,
     join?: string
@@ -60,7 +60,7 @@ class DeleteBuilder implements INoodDelete {
           field: key,
           value: field[key],
           operator,
-          ignore
+          ignore,
         }))
       );
     } else {

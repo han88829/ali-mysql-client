@@ -33,7 +33,7 @@ class UpdateBuilder {
    */
   where(
     field: WhereObject | string | Array<any>,
-    value: any,
+    value?: any,
     operator?: string,
     ignore?: string,
     join?: string

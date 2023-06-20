@@ -15,7 +15,7 @@ interface End {
 interface Where extends End {
   where(
     field: object | string,
-    value: any,
+    value?: any,
     operator?: string,
     ignore?: string,
     join?: string
@@ -91,7 +91,7 @@ class SelectBuilder implements INoodleRobot {
    */
   where(
     field: WhereObject | string | Array<any>,
-    value: any,
+    value?: any,
     operator?: string,
     ignore?: string,
     join?: string
