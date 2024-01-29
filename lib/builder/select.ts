@@ -6,6 +6,7 @@ export interface From {
 
 interface End {
   value(): Promise<string | number>;
+  pluck: (field: string) => Promise<Array<any>>;
   findOne(): any;
   find(rows?: number): any;
   page(page: number, rows: number): any;
@@ -156,6 +157,22 @@ class SelectBuilder implements INoodleRobot {
         const row = result[0] || {};
         const field = Object.keys(row)[0];
         return row[field];
+      });
+  }
+
+  /**
+ * @description: 查询单个值value数组
+ * @return {*}
+ */
+  pluck(field: string): Promise<Array<any>> {
+    const data = { ...this.data };
+    return this.provider
+      .parseSelect(data)
+      .execute()
+      .then((result: any) => {
+        const row = result || [];
+        const _field = Object.keys(row[0] || {})[0];
+        return row.map((x: any) => x[field || _field]);
       });
   }
 

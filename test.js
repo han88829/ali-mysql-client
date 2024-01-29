@@ -4,12 +4,16 @@ console.log(DbClient);
 const db = new DbClient({
     mysql: {
         host: "127.0.0.1",
-        user: 'user',
+        user: 'root',
         port: 3306,
-        password: '121212',
+        password: 'root',
         database: 'mysql',
     }
 });
+(async () => {
+    const sql = await db.select().from('user').pluck('Host');
+    console.log('数组value', sql);
+})();
 // delete from `user` where `name` = 1
 const sql1 = db.delete('user').where('name', 1).toSql();
 // delete from `user` where `name` > 1 and `age` > 23
