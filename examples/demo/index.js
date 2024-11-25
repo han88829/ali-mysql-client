@@ -1,14 +1,26 @@
-const DbClient = require('../../lib').default;
+const DbClient = require('knex');
 
+// const db = new DbClient({
+//     client: "mysql2",
+//     connection: {
+//         host: "127.0.0.1",
+//         user: 'root',
+//         port: 3306,
+//         password: 'root',
+//         database: 'fire_control',
+//         timezone: '+08:00',
+//         dateStrings: true
+//     }
+// });
 const db = new DbClient({
-    client: "mysql2",
+    client: "pg",
     connection: {
-        host: "127.0.0.1",
-        user: 'root',
-        port: 3306,
-        password: 'root',
+        host: '112.124.52.159',
+        user: 'postgres',
         database: 'fire_control',
-        timezone: '+08:00',
+        port: 5432,
+        password: 'Abc123',
+        timezone: 'Asia/Shanghai',
         dateStrings: true
     }
 });

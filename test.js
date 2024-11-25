@@ -15,28 +15,30 @@ const db = new DbClient({
 (async () => {
     const sql = await db.select().from('user').findOne();
     console.log('findOne', sql);
+    const sql1 = await db.select().from('user').findOne();
+    console.log('findOne', sql);
 
-    const sql2 = await db.select().from('user').find();
-    console.log('find', sql2);
+    // const sql2 = await db.select().from('user').find();
+    // console.log('find', sql2);
 
-    const name = await db.select('name').from('user').value();
-    console.log('value', name);
+    // const name = await db.select('name').from('user').value();
+    // console.log('value', name);
 
-    const name1 = await db.select().from('user').pluck('id');
-    console.log('pluck', name1);
+    // const name1 = await db.select().from('user').pluck('id');
+    // console.log('pluck', name1);
 
-    const name2 = await db.select().from('user').page(1, 10);
-    console.log('page', name2);
-    const t = await db.useTransaction();
-    try {
-        const res = await t.update('user', { name: "小明4" }).where('id', 86).execute();
-        if (res.affectedRows) await t.commit();
-    } catch (error) {
-        console.log(error);
-        await t.rollback();
-    }
-    const res1 = await db.save('user', { name: `小明-${new Date().valueOf()}`, id: 86 }).execute();
-    console.log(res1);
+    // const name2 = await db.select().from('user').page(1, 10);
+    // console.log('page', name2);
+    // const t = await db.useTransaction();
+    // try {
+    //     const res = await t.update('user', { name: "小明4" }).where('id', 86).execute();
+    //     if (res.affectedRows) await t.commit();
+    // } catch (error) {
+    //     console.log(error);
+    //     await t.rollback();
+    // }
+    // const res1 = await db.save('user', { name: `小明-${new Date().valueOf()}`, id: 86 }).execute(); 
+
 })();
 // // delete from `user` where `name` = 1
 // const sql1 = db.delete('user').where('name', 1).toSql();

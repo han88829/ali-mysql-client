@@ -10,9 +10,12 @@ import { Options } from "./interface";
 class DbClient {
   provider: any;
   literals: any;
+  knex: any;
+  options: Options | undefined;
   constructor(options: Options) {
     this.provider = new DbProvider(options);
     this.literals = this.provider.command.literals;
+    this.knex = this.provider.command.mysql;
   }
 
   select(sql: string = "*"): From {

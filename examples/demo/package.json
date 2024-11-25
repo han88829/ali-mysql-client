@@ -10,7 +10,8 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
-    "knex-h": "^1.0.1",
-    "mysql2": "^3.11.4"
+    "knex-h": "^1.0.2",
+    "mysql2": "^3.11.4",
+    "pg": "^8.13.1"
   }
 }
