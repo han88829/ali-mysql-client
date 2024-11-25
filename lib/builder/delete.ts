@@ -71,7 +71,10 @@ class DeleteBuilder implements INoodDelete {
   }
 
   execute(): Promise<Response> {
-    return this.provider.parseDelete(this.data).execute();
+    return this.provider
+      .parseDelete(this.data)
+      .execute()
+      .then((r: Array<Response>) => r[0]);
   }
 
   toSql(): string {

@@ -1,3 +1,4 @@
+import {} from "knex/types/";
 export interface Response {
   fieldCount: number;
   affectedRows: number;
@@ -20,15 +21,7 @@ export interface InsertResponse {
 }
 
 export interface Options {
-  mysql: {
-    host: string;
-    user: string;
-    port?: string | number;
-    password: string;
-    database: string;
-    charset?: string;
-    timezone?: string;
-  };
+  mysql: Object;
   config?: any;
 }
 

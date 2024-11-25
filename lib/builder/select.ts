@@ -154,23 +154,23 @@ class SelectBuilder implements INoodleRobot {
       .parseSelect(data)
       .execute()
       .then((result: any) => {
-        const row = result[0] || {};
+        const row = result[0][0] || {};
         const field = Object.keys(row)[0];
         return row[field];
       });
   }
 
   /**
- * @description: 查询单个值value数组
- * @return {*}
- */
+   * @description: 查询单个值value数组
+   * @return {*}
+   */
   pluck(field: string): Promise<Array<any>> {
     const data = { ...this.data };
     return this.provider
       .parseSelect(data)
       .execute()
       .then((result: any) => {
-        const row = result || [];
+        const row = result[0] || [];
         const _field = Object.keys(row[0] || {})[0];
         return row.map((x: any) => x[field || _field]);
       });
@@ -185,7 +185,9 @@ class SelectBuilder implements INoodleRobot {
     return this.provider
       .parseSelect(data)
       .execute()
-      .then((result: Array<any>) => result[0]);
+      .then((result: Array<any>) => {
+        return result[0][0];
+      });
   }
 
   /**
@@ -201,7 +203,7 @@ class SelectBuilder implements INoodleRobot {
         page: rows > 0 ? 1 : 0,
       })
       .execute()
-      .then((result: Array<any>) => result);
+      .then((result: Array<any>) => result[0]);
   }
 
   /**
@@ -242,11 +244,11 @@ class SelectBuilder implements INoodleRobot {
     // 返回分页查询结果
     return Promise.all([queryRows.execute(), queryTotal.execute()]).then(
       (values) => ({
-        total: values[1][0].total,
-        rows: values[0],
+        total: values[1][0][0].total,
+        rows: values[0][0],
         pageIndex: Number(page),
         pageSize: Number(rows),
-        pageCount: Math.ceil(values[1][0].total / (rows || 1)),
+        pageCount: Math.ceil(values[1][0][0].total / (rows || 1)),
       })
     );
   }

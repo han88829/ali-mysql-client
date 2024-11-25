@@ -1,4 +1,4 @@
-import { InsertResponse } from '../interface';
+import { InsertResponse } from "../interface";
 class InsertBuilder {
   provider: any;
   data: any;
@@ -23,13 +23,12 @@ class InsertBuilder {
   execute(): Promise<InsertResponse> {
     return this.provider
       .parseInsert(this.data)
-      .execute();
+      .execute()
+      .then((r: Array<InsertResponse>) => r[0]);
   }
 
   toSql(): string {
-    return this.provider
-      .parseInsert(this.data)
-      .format();
+    return this.provider.parseInsert(this.data).format();
   }
 }
 

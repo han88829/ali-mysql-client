@@ -79,7 +79,10 @@ class UpdateBuilder {
     return this;
   }
   execute(): Promise<Response> {
-    return this.provider.parseUpdate(this.data).execute();
+    return this.provider
+      .parseUpdate(this.data)
+      .execute()
+      .then((r: Array<Response>) => r[0]);
   }
 
   toSql(): string {

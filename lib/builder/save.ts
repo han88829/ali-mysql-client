@@ -9,7 +9,7 @@ class SaveBuilder {
       where: [],
     };
   }
- 
+
   async execute(): Promise<number> {
     if (Array.isArray(this.data.data)) {
       let insertData = this.data.data.filter((x: any) => !x.id);
@@ -23,6 +23,7 @@ class SaveBuilder {
               data: insertData.length == 1 ? insertData[0] : insertData,
             })
             .execute()
+            .then((r: any) => r[0])
         );
       if (updateData.length)
         promiseAll.push(
@@ -33,7 +34,8 @@ class SaveBuilder {
                 data: x,
                 where: [{ field: "id", value: x.id }],
               })
-              .execute();
+              .execute()
+              .then((r: any) => r[0]);
           })
         );
       if (!promiseAll.length) return 0;
@@ -45,11 +47,20 @@ class SaveBuilder {
     }
 
     if (!this.data.data.id)
-      return (await this.provider.parseInsert(this.data).execute())
-        .affectedRows;
+      return (
+        await this.provider
+          .parseInsert(this.data)
+          .execute()
+          .then((r: any) => r[0])
+      ).affectedRows;
 
     this.data.where = [{ field: "id", value: this.data.data.id }];
-    return (await this.provider.parseUpdate(this.data).execute()).affectedRows;
+    return (
+      await this.provider
+        .parseUpdate(this.data)
+        .execute()
+        .then((r: any) => r[0])
+    ).affectedRows;
   }
 }
 
